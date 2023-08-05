@@ -10,14 +10,14 @@ export default {
                     pass: process.env.MS_PW
                 }
             });
-            
+
             await transporter.sendMail({
-                from: 'mieumieu.nodejs@gmail.com',
+                from: 'buikien.nodejs@gmail.com',
                 ...mailOptions
             });
 
             return true
-        }catch (err) {
+        } catch (err) {
             return false
         }
     }
