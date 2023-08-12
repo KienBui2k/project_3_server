@@ -50,7 +50,7 @@ export default {
 
                         if (flag) {
                             try {
-                                console.log("create replace", this)
+                    
 
                                 await prisma.users.update({
                                     where: {
@@ -64,7 +64,7 @@ export default {
                                 return await this.create(newUser);
                             } catch (err) {
                                 // xuất file log
-                                //console.log("err loi can xu ly tay", err)
+
                                 return {
                                     status: false,
                                     message: "Email đã tồn tại!"
@@ -109,6 +109,7 @@ export default {
         }
     },
     login: async (loginData) => {
+ 
         try {
             let user = await prisma.users.findUnique({
                 // 1: user_name, 0: email
@@ -139,7 +140,8 @@ export default {
                     user_name: data.user_name
                 },
                 data: {
-                    password: data.password
+                    password: data.password,
+                    update_at: new Date(Date.now())
                 }
             })
 
@@ -170,7 +172,7 @@ export default {
                 return {
                     status: true,
                     messsage: "Tìm kiếm thành công user",
-                    data: updateAt?.update_at
+                    update_at: updateAt?.update_at
                 }
             } else {
                 return {
@@ -182,7 +184,7 @@ export default {
 
 
         } catch (err) {
-            console.log("err fid User", err);
+      
             return {
                 status: false,
                 messege: "lỗi"

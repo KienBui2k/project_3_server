@@ -6,7 +6,7 @@ import qs from 'qs'
 
 export default {
     addToCart: async function (req, res) {
-        console.log("req.body", req.body);
+       
         try {
             req.body.quantity = Number(req.body.quantity)
             req.body.product_id = Number(req.body.product_id)
@@ -23,7 +23,7 @@ export default {
             let modelRes = await purchaseModel.findCart(Number(req.params.user_id));
             return res.status(modelRes.status ? 200 : 213).json(modelRes)
         } catch (err) {
-            console.log("err", err);
+           
             return res.status(500).json({
                 message: "Lỗi controller!"
             })
@@ -45,14 +45,14 @@ export default {
             let modelRes = await purchaseModel.updateCart(req.body);
             return res.status(modelRes.status ? 200 : 213).json(modelRes);
         } catch (err) {
-            console.log(" err", err);
+          
             return res.status(500).json({
                 message: "Lỗi xử lý!"
             })
         }
     },
     createReceipt: async function (req, res) {
-        console.log("da vao cantro");
+       
         try {
             let modelRes = await purchaseModel.createReceipt(req.body);
             return res.status(modelRes.status ? 200 : 213).json(modelRes)
@@ -63,8 +63,7 @@ export default {
         }
     },
     zaloCreate: async function (req, res) {
-        console.log("controll req", req.body);
-        console.log("controll res", res.data);
+       
         /*
             req.body = {
                 receiptCode:"abcde",
@@ -103,7 +102,7 @@ export default {
                     url: zaloRes.data.orderurl,
                     orderId: orderInfo.apptransid
                 }
-                console.log("qrCodeUrl", qrCodeUrl);
+          
                 return res.status(200).json(qrCodeUrl);
             })
             .catch(err => {
@@ -140,13 +139,13 @@ export default {
 
         axios(postConfig)
             .then(function (resZalo) {
-                //console.log("response.data", res.data);
+             
                 return res.status(resZalo.data.returncode == 1 ? 200 : 213).json({
                     message: resZalo.data.returnmessage
                 })
             })
             .catch(function (error) {
-                //console.log("err", error)
+               
                 return res.status(500).json({
                     message: "Zalo sập!"
                 })

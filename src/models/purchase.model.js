@@ -87,7 +87,7 @@ export default {
 
             }
         } catch (err) {
-            console.log("err", err)
+   
             return {
                 status: false,
                 message: "Lỗi!"
@@ -116,7 +116,7 @@ export default {
                 data: existCart
             }
         } catch (err) {
-            console.log("err", err);
+   
             return {
                 status: false,
                 message: "Lỗi"
@@ -171,7 +171,7 @@ export default {
                 message: 'Updated Successfully'
             }
         } catch (err) {
-            console.log("err", err);
+
             return {
                 status: false,
                 message: "Lỗi Modules"
@@ -210,7 +210,7 @@ export default {
                 data: receipt
             }
         } catch (err) {
-            console.log("lỗi createReceipt", err)
+        
             return {
                 status: false,
                 message: "lỗi createReceipt model"

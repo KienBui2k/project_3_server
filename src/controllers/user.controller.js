@@ -25,7 +25,7 @@ async function sendMailLogin(user, ip) {
             `
         });
     } catch (err) {
-        //console.log("err", err)
+   
     }
 }
 
@@ -141,7 +141,7 @@ export default {
         let decode = jwt.verifyToken(req.body.token);
         if (decode) {
             let modelRes = await userModel.findById(decode.data.id);
-            return res.status(new Date(decode.data.update_at).toDateString() == new Date(modelRes.data).toDateString() ? 200 : 500).json(decode)
+            return res.status(new Date(decode.data.update_at).toDateString() == modelRes.update_at.toDateString() ? 200 : 500).json(decode)
 
         }
         return res.status(500).json(decode);
@@ -153,7 +153,7 @@ export default {
 
             if (!checkPass) {
                 return res.status(200).json({
-                    message: "Mật khẩu không chính xác!"    
+                    message: "Mật khẩu không chính xác!"
                 })
             }
 
@@ -194,7 +194,7 @@ export default {
             if (!decode) {
                 return res.status(200).send("Email hết hạn!")
             } else {
-                console.log("decode", decode)
+           
                 let result = await userModel.update({
                     user_name: decode.user_name,
                     password: decode.new_pass

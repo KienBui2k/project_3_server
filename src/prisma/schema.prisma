@@ -13,19 +13,20 @@ enum Role {
 }
 
 model users {
-  id            Int      @id @unique @default(autoincrement())
-  email         String   @unique @db.Char(100)
-  email_confirm Boolean  @default(false)
-  user_name     String   @unique @db.Char(30)
-  first_name    String   @db.Char(30)
-  last_name     String   @db.Char(30)
-  password      String   @db.Char(255)
-  blocked       Boolean  @default(false)
-  avatar        String   @default("no_avatar.jpg")
-  role          Role     @default(USER)
-  create_at     DateTime @default(now())
-  update_at     DateTime @default(now())
+  id            Int        @id @unique @default(autoincrement())
+  email         String     @unique @db.Char(100)
+  email_confirm Boolean    @default(false)
+  user_name     String     @unique @db.Char(30)
+  first_name    String     @db.Char(30)
+  last_name     String     @db.Char(30)
+  password      String     @db.Char(255)
+  blocked       Boolean    @default(false)
+  avatar        String     @default("no_avatar.jpg")
+  role          Role       @default(USER)
+  create_at     DateTime   @default(now())
+  update_at     DateTime   @default(now())
   carts         carts[]
+  receipts      receipts[]
 }
 
 model categories {
@@ -103,6 +104,8 @@ model receipts {
   create_at       DateTime          @default(now())
   update_at       DateTime          @default(now())
   receipt_details receipt_details[]
+  user            users             @relation(fields: [user_id], references: [id])
+  user_id         Int
 }
 
 model receipt_details {

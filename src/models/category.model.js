@@ -29,7 +29,7 @@ export default {
                 data: categories
             }
         } catch (err) {
-            console.log("err", err);
+   
             return {
                 status: false,
                 message: "get all product that bai"

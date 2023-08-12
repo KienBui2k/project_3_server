@@ -55,7 +55,7 @@ export default {
                 data: product
             }
         } catch (err) {
-            console.log("err", err)
+           
             return {
                 status: false,
                 message: "Lỗi không xác định!"
@@ -63,7 +63,7 @@ export default {
         }
     },
     update: async function (productId, productEditData) {
-        console.log("productEditData", productEditData);
+
         try {
             const productEdited = await prisma.products.update({
                 where: {
@@ -77,7 +77,7 @@ export default {
                 data: productEdited
             }
         } catch (err) {
-            console.log("err", err);
+      
             return {
                 status: false,
                 message: "Lỗi không xác định!"

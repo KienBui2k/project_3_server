@@ -10,5 +10,6 @@ import categoryModule from './modules/category';
 router.use('/categories', categoryModule);
 import purchaseModel from './modules/purchase';
 router.use("/purchase", purchaseModel)
-
+import receiptModule from './modules/receipt.api';
+router.use('/receipts', receiptModule);
 export default router;
