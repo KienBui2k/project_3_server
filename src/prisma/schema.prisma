@@ -1,63 +1,116 @@
 datasource db {
-    provider = "mysql"
-    url      = env("PRM_DB_URL")
+  provider = "mysql"
+  url      = env("PRM_DB_URL")
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 enum Role {
-    ADMIN
-    USER
+  ADMIN
+  USER
 }
 
 model users {
-    id            Int      @id @unique @default(autoincrement())
-    email         String   @unique @db.Char(100)
-    email_confirm Boolean  @default(false)
-    user_name     String   @unique @db.Char(30)
-    first_name    String   @db.Char(30)
-    last_name     String   @db.Char(30)
-    password      String   @db.Char(255)
-    blocked       Boolean  @default(false)
-    avatar        String   @default("no_avatar.jpg")
-    role          Role     @default(USER)
-    create_at     DateTime @default(now())
-    update_at     DateTime @default(now())
+  id            Int      @id @unique @default(autoincrement())
+  email         String   @unique @db.Char(100)
+  email_confirm Boolean  @default(false)
+  user_name     String   @unique @db.Char(30)
+  first_name    String   @db.Char(30)
+  last_name     String   @db.Char(30)
+  password      String   @db.Char(255)
+  blocked       Boolean  @default(false)
+  avatar        String   @default("no_avatar.jpg")
+  role          Role     @default(USER)
+  create_at     DateTime @default(now())
+  update_at     DateTime @default(now())
+  carts         carts[]
 }
+
 model categories {
-  id        Int      @id @default(autoincrement())
-  title String @unique
-  status Boolean @default(false)
-  avatar String @default("category.png")
-  deleted Boolean @default(false)
+  id       Int        @id @default(autoincrement())
+  title    String     @unique
+  status   Boolean    @default(false)
+  avatar   String     @default("category.png")
+  deleted  Boolean    @default(false)
   products products[]
 }
+
 model products {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique(map: "Products_name_key")
-  active   Boolean    @default(false)
-  des String
-  avatar String
-  category  categories @relation(fields: [category_id], references: [id])
-  category_id Int
-  product_options product_options[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  active          Boolean           @default(false)
+  des             String
+  avatar          String
+  price           Float
+  category        categories        @relation(fields: [category_id], references: [id])
+  category_id     Int
+  // product_options product_options[]
+  cart_details    cart_details[]
+  receipt_details receipt_details[]
 }
-model product_options {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique()
-  price Float
-  stock Int
-  active   Boolean    @default(false)
-  product_option_pictures product_option_pictures[]
+
+// model product_options {
+//   id                      Int                       @id @default(autoincrement())
+//   name                    String                    @unique()
+//   price                   Float
+//   stock                   Int
+//   active                  Boolean                   @default(false)
+//   product_option_pictures product_option_pictures[]
+//   product_id              Int
+//   product                 products                  @relation(fields: [product_id], references: [id])
+// }
+
+// model product_option_pictures {
+//   id                Int             @id @default(autoincrement())
+//   url               String
+//   is_avatar         Boolean         @default(false)
+//   product_option_id Int
+//   product_option    product_options @relation(fields: [product_option_id], references: [id])
+// }
+
+model carts {
+  id           String         @id @default(uuid())
+  user         users          @relation(fields: [user_id], references: [id])
+  user_id      Int            @unique
+  cart_details cart_details[]
+}
+
+model cart_details {
+  id         Int      @id @default(autoincrement())
+  cart       carts    @relation(fields: [cart_id], references: [id])
+  cart_id    String
+  product    products @relation(fields: [product_id], references: [id])
   product_id Int
-  product  products @relation(fields: [product_id], references: [id])
+  quantity   Int
+  note       String
 }
-model product_option_pictures {
-  id        Int      @id @default(autoincrement())
-  url       String 
-  is_avatar Boolean @default(false)
-  product_option_id Int
-  product_option  product_options @relation(fields: [product_option_id], references: [id])
+
+enum PayMode {
+  CASH
+  ZALO
+  MOMO
+}
+
+model receipts {
+  id              Int               @id @default(autoincrement())
+  receipt_code    String
+  total           Float
+  paid            Boolean
+  pay_mode        PayMode
+  paid_time       DateTime?
+  create_at       DateTime          @default(now())
+  update_at       DateTime          @default(now())
+  receipt_details receipt_details[]
+}
+
+model receipt_details {
+  id         Int      @id @default(autoincrement())
+  receipt    receipts @relation(fields: [receipt_id], references: [id])
+  receipt_id Int
+  product    products @relation(fields: [product_id], references: [id])
+  product_id Int
+  quantity   Int
+  note       String?
 }
