@@ -25,6 +25,7 @@ const productUpdate = multer({ storage: imgProductStorageUpdate })
 
 router.get('/:id', productController.readProductById);
 router.patch('/:id', productUpdate.array('imgs'), productController.update)
+// router.get("/latest-product", productController.findLatestProduct);
 
 router.get("/", productController.findMany);
 

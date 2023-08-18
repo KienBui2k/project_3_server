@@ -32,7 +32,7 @@ export default {
     },
     create: async (req, res) => {
         console.log("req.file", req.files);
-      
+
         let productInforFormat = JSON.parse(req.body.product_infor);
 
         // xử lý avatar
@@ -58,9 +58,8 @@ export default {
     update: async function (req, res) {
         console.log("datta in ", req.files);
         console.log("datta in sfsefesf ", req.body);
-
         let productInforFormat = JSON.parse(req.body.product_infor);
-        // xử lý avatar
+        // xử lý hình ảnh
         if (req.files.length > 0) {
             let avatarProcess = await uploadFileToStorage(req.files[0], "products", fs.readFileSync(req.files[0].path));
             productInforFormat.avatar = avatarProcess;
@@ -69,8 +68,6 @@ export default {
             })
             req?.files.splice(0, 1);
         }
-
-
         let product = productInforFormat;
         console.log("product", product);
 
@@ -110,6 +107,16 @@ export default {
             })
         }
     },
-    
+    // findLatestProduct: async (req, res) => {
+    //     try {
+    //         let modelRes = await productModel.findLatestProduct(); 
+    //         res.status(modelRes.status ? 200 : 214).json(modelRes);
+    //     } catch (err) {
+    //         return res.status(500).json({
+    //             message: "Lỗi không xác định!"
+    //         });
+    //     }
+    // },
+
 }
 

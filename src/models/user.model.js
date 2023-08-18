@@ -50,7 +50,7 @@ export default {
 
                         if (flag) {
                             try {
-                    
+
 
                                 await prisma.users.update({
                                     where: {
@@ -109,7 +109,7 @@ export default {
         }
     },
     login: async (loginData) => {
- 
+
         try {
             let user = await prisma.users.findUnique({
                 // 1: user_name, 0: email
@@ -184,7 +184,7 @@ export default {
 
 
         } catch (err) {
-      
+
             return {
                 status: false,
                 messege: "lỗi"
@@ -193,5 +193,24 @@ export default {
 
         }
 
-    }
+    },
+    findAllUsers: async () => {
+        try {
+            let users = await prisma.users.findMany({
+                where: {
+                    role: "ADMIN"
+                }
+            })
+            return {
+                message: "get all user thanh cong",
+                data: users
+            }
+        } catch (err) {
+            console.log("err", err);
+            return {
+                status: false,
+                message: "get all user that bai"
+            }
+        }
+    },
 }

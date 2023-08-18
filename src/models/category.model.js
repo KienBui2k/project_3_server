@@ -6,7 +6,8 @@ export default {
         try {
             let products = await prisma.products.findMany({
                 where: {
-                    category_id: category_id
+                    category_id: category_id,
+                    active: true
                 }
             });
             return {
@@ -29,11 +30,37 @@ export default {
                 data: categories
             }
         } catch (err) {
-   
+
             return {
                 status: false,
                 message: "get all product that bai"
             }
         }
     },
+    findLatestProductsByCategory: async function (category_id) {
+        try {
+            let products = await prisma.products.findMany({
+                where: {
+                    category_id: category_id,
+                    active: true
+                },
+                orderBy: {
+                    create_at: 'desc'
+                },
+                take: 1
+            });
+
+            return {
+                message: "Get latest products success!",
+                data: products
+            };
+        } catch (err) {
+            console.log("err", err);
+            return {
+                status: false,
+                message: "Lỗi không xác định!"
+            };
+        }
+    },
+
 }

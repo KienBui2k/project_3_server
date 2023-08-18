@@ -121,4 +121,31 @@ export default {
             }
         }
     },
+    // findLatestProduct: async () => {
+    //     try {
+    //         const latestProduct = await prisma.products.findFirst({
+    //             orderBy: {
+    //                 create_at: 'desc' 
+
+    //             }
+    //         });
+    //         if (latestProduct) {
+    //             return {
+    //                 status: true,
+    //                 message: "Lấy sản phẩm mới nhất thành công!",
+    //                 data: latestProduct
+    //             };
+    //         } else {
+    //             return {
+    //                 status: false,
+    //                 message: "Không tìm thấy sản phẩm!",
+    //             };
+    //         }
+    //     } catch (err) {
+    //         return {
+    //             status: false,
+    //             message: "Lỗi không xác định!"
+    //         };
+    //     }
+    // },
 }

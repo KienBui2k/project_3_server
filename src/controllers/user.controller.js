@@ -25,7 +25,7 @@ async function sendMailLogin(user, ip) {
             `
         });
     } catch (err) {
-   
+
     }
 }
 
@@ -87,7 +87,7 @@ export default {
         try {
             let modelRes = await userModel.confirm(decode)
 
-            res.status(modelRes.status ? 200 : 413).json(modelRes)
+            res.status(modelRes.status ? 200 : 413).send("đã xác thực email thành công!")
 
         } catch (err) {
             return res.status(500).json(
@@ -124,7 +124,8 @@ export default {
                 return res.status(token ? 200 : 314).json(
                     {
                         message: token ? "Login thành công!" : "Server bảo trì!",
-                        token
+                        token,
+                        userId: modelRes.data.id
                     }
                 )
             }
@@ -194,7 +195,7 @@ export default {
             if (!decode) {
                 return res.status(200).send("Email hết hạn!")
             } else {
-           
+
                 let result = await userModel.update({
                     user_name: decode.user_name,
                     password: decode.new_pass
@@ -243,5 +244,20 @@ export default {
         }
 
     },
+    findAllUsers: async (req, res) => {
+        try {
+            let modelRes = await userModel.findAllUsers();
+
+            return res.status(modelRes.status ? 200 : 214).json(modelRes)
+
+        } catch (err) {
+            return res.status(500).json(
+                {
+                    message: "Bad request products !"
+                }
+            )
+        }
+    },
+
 }
 

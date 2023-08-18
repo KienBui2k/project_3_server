@@ -30,12 +30,13 @@ model users {
 }
 
 model categories {
-  id       Int        @id @default(autoincrement())
-  title    String     @unique
-  status   Boolean    @default(false)
-  avatar   String     @default("category.png")
-  deleted  Boolean    @default(false)
-  products products[]
+  id        Int        @id @default(autoincrement())
+  title     String     @unique
+  status    Boolean    @default(false)
+  avatar    String     @default("category.png")
+  deleted   Boolean    @default(false)
+  create_at DateTime   @default(now())
+  products  products[]
 }
 
 model products {
@@ -47,6 +48,7 @@ model products {
   price           Float
   category        categories        @relation(fields: [category_id], references: [id])
   category_id     Int
+  create_at       DateTime          @default(now())
   // product_options product_options[]
   cart_details    cart_details[]
   receipt_details receipt_details[]
